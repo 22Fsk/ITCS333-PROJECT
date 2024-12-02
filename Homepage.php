@@ -17,12 +17,24 @@ if (!isset($_SESSION['email'])) {
     <link rel="stylesheet" href="Homepage.css">
 </head>
 <body>
-    <div class="home-container">
+    <div class="container">
+        <!-- Header Section -->
         <header>
-            <h1>Welcome to the University of Bahrain</h1>
-            <p>Doctors' Schedule and Alerts System</p>
+            <div class="header-left">
+                <!-- Profile Link with Profile Picture -->
+                <a href="profile.php" class="profile-link">
+                    <img src="https://th.bing.com/th/id/R.fa0ca630a6a3de8e33e03a009e406acd?rik=MMtJ1mm73JsM6w&riu=http%3a%2f%2fclipart-library.com%2fimg%2f1905734.png&ehk=iv2%2fLMRQKA2W8JFWCwwq6BdYfKr2FmBAlFys22RmPI8%3d&risl=&pid=ImgRaw&r=0"
+                     alt="Profile Picture" class="profile-pic">
+                    <span>Profile</span>
+                </a>
+            </div>
+            <div class="header-center">
+                <h1>Welcome to the University of Bahrain</h1>
+                <p>Doctors' Schedule and Alerts System</p>
+            </div>
         </header>
 
+        <!-- Main Section -->
         <main>
             <div class="welcome-message">
                 <h2>Welcome, Dr. <?php echo htmlspecialchars($_SESSION['email']); ?>!</h2>
@@ -36,6 +48,7 @@ if (!isset($_SESSION['email'])) {
             </div>
         </main>
 
+        <!-- Footer -->
         <footer>
             <p>&copy; 2024 University of Bahrain. All rights reserved.</p>
         </footer>
