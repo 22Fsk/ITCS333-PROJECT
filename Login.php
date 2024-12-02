@@ -13,7 +13,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["email"])) {
         $errorMessage = "Error: Invalid email format.";
     }
     // Check if the email ends with @uob.edu.bh
-    elseif (substr($email, -12) !== "@uob.edu.bh") {
+    elseif (substr($email, -11) !== "@uob.edu.bh") {
         $errorMessage = "Error: The email must end with @uob.edu.bh";
     } else {
         // If everything is valid, store the email in session and redirect to the home page
