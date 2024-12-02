@@ -1,119 +1,135 @@
-    body {
-        font-family: Arial, sans-serif;
-        background-color: #f4f7f6;
-        padding-top: 30px;
+/* General Body Styles */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f7f7f7; /* Light grey background */
+}
+
+/* Container for the login page */
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f0f0f0; /* Beige background */
+}
+
+/* Box styling for login form */
+.login-box {
+    background-color: #ffffff; /* White background for the login box */
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 450px;
+    text-align: center;
+    transition: all 0.3s ease-in-out;
+}
+
+/* Header text style */
+.login-box h1 {
+    color: #B22222; /* Red color */
+    margin-bottom: 20px;
+    font-size: 32px;
+}
+
+/* Paragraph text style */
+.login-box p {
+    font-size: 16px;
+    color: #555; /* Dark grey text */
+    margin-bottom: 20px;
+}
+
+/* Label for the input field */
+.login-box label {
+    display: block;
+    text-align: left;
+    color: #333;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+/* Input field styles */
+.login-box input {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 16px;
+    color: #333;
+    background-color: #fafafa;
+}
+
+/* Focus effect on the input field */
+.login-box input:focus {
+    outline: none;
+    border-color: #B22222; /* Red border on focus */
+}
+
+/* Login button styling */
+.login-btn-container {
+    text-align: center;
+}
+
+.login-btn {
+    background-color: #B22222; /* Red background for the button */
+    color: white;
+    padding: 15px 30px;
+    font-size: 18px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 100%;
+    box-sizing: border-box;
+    transition: background-color 0.3s ease;
+}
+
+/* Hover effect for login button */
+.login-btn:hover {
+    background-color: #8B0000; /* Darker red on hover */
+}
+
+/* Media Queries for Responsiveness */
+
+/* Tablet view */
+@media (max-width: 768px) {
+    .login-box {
+        padding: 25px;
+        max-width: 350px;
     }
 
-    .container {
-        max-width: 900px;
-        margin: 0 auto;
+    .login-box h1 {
+        font-size: 28px;
     }
 
-    .alert {
-        margin-top: 20px;
-        margin-bottom: 20px;
+    .login-box p {
+        font-size: 14px;
     }
 
-    h2 {
-        font-size: 2.5rem;
-        text-align: center;
-        margin-bottom: 30px;
-        color: #2a2a2a;
+    .login-btn {
+        font-size: 16px;
     }
+}
 
-    h3 {
-        font-size: 1.8rem;
-        margin-bottom: 20px;
-    }
-
-    .card {
-        background-color: #ffffff;
-        border: 1px solid #ddd;
-        border-radius: 10px;
-        padding: 30px;
-        margin-bottom: 20px;
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    }
-
-    .card-header {
-        background-color: #f1f1f1;
-        padding: 10px 15px;
-        font-weight: bold;
-    }
-
-    .form-label {
-        font-weight: bold;
-        margin-bottom: 10px;
-    }
-
-    .form-control {
-        border-radius: 5px;
-        border: 1px solid #ccc;
-        padding: 10px;
-        margin-bottom: 15px;
-        width: 100%;
-    }
-
-    .btn {
-        width: 100%;
-        padding: 10px;
-        border-radius: 5px;
-    }
-
-    .btn-primary {
-        background-color: #007bff;
-        border: none;
-        color: white;
-    }
-
-    .btn-primary:hover {
-        background-color: #0056b3;
-    }
-
-    .btn-danger {
-        background-color: #dc3545;
-        border: none;
-        color: white;
-    }
-
-    .btn-danger:hover {
-        background-color: #c82333;
-    }
-
-    .row {
-        margin-top: 30px;
-    }
-
-    .col-md-6 {
-        margin-bottom: 30px;
-    }
-
-    .card-body {
+/* Mobile view */
+@media (max-width: 480px) {
+    .login-box {
         padding: 20px;
+        max-width: 280px;
     }
 
-    /* Responsive Design */
-    @media (max-width: 768px) {
-        .col-md-6 {
-            width: 100%;
-            margin-bottom: 15px;
-        }
-
-        h2 {
-            font-size: 2rem;
-        }
+    .login-box h1 {
+        font-size: 24px;
     }
 
-    @media (max-width: 576px) {
-        h2 {
-            font-size: 1.8rem;
-        }
-
-        .form-control {
-            padding: 8px;
-        }
-
-        .btn {
-            padding: 8px;
-        }
+    .login-box p {
+        font-size: 12px;
     }
+
+    .login-btn {
+        font-size: 14px;
+        padding: 12px 25px;
+    }
+}
