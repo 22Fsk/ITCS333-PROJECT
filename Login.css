@@ -91,6 +91,24 @@ body {
     background-color: #8B0000; /* Darker red on hover */
 }
 
+/* Registration Link */
+.register-link {
+    margin-top: 15px;
+    font-size: 14px;
+    color: #7f8c8d; /* Light grey for text */
+    text-align: center;
+}
+
+.register-link a {
+    color: #c0392b; /* Red for the link */
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.register-link a:hover {
+    text-decoration: underline;
+}
+
 /* Media Queries for Responsiveness */
 
 /* Tablet view */
