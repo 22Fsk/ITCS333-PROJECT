@@ -27,8 +27,8 @@ h1, h2, p {
 }
 
 .profile-pic {
-    width: 30px;
-    height: 30px;
+    width: 45px; /* Increased size */
+    height: 45px; /* Increased size */
     border-radius: 50%;
     object-fit: cover;
 }
@@ -51,7 +51,7 @@ h1, h2, p {
 }
 
 .header-center .university-logo {
-    width: 40px;
+    width: 50px; /* Increased size */
     height: auto;
 }
 
@@ -88,7 +88,6 @@ main {
     color: #7f8c8d;
 }
 
-/* Button Container */
 .button-container {
     display: flex;
     justify-content: center;
@@ -99,7 +98,9 @@ main {
 .action-btn {
     background-color: #c0392b;
     color: white;
-    padding: 15px 40px;
+    width: 200px; /* Fixed width for uniformity */
+    height: 60px; /* Fixed height for uniformity */
+    padding: 15px 0; /* Vertically centering the text */
     font-size: 18px;
     text-decoration: none;
     text-align: center;
@@ -160,7 +161,7 @@ footer {
 /* Tablet Responsiveness (769px to 1024px) */
 @media screen and (min-width: 769px) and (max-width: 1024px) {
     .header-center .university-logo {
-        width: 30px;
+        width: 40px;
     }
 
     .header-center h1 {
