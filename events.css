@@ -1,0 +1,126 @@
+/* General Body Styling */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #dbdbdb; 
+    color: #130d0d; 
+    margin: 0;
+    padding: 0;
+}
+
+/* Header Styling */
+header {
+    background-color: #8B0000; 
+    color: #e5e5e5;
+    text-align: center;
+    padding: 20px;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+/* Calendar Table Styling */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+th, td {
+    padding: 10px;
+    text-align: center;
+    border: 1px solid #0b0b0b; 
+}
+
+th {
+    background-color: #5e5e5e;
+    color: #fff;
+}
+
+td {
+    background-color: #797878;
+}
+
+td a {
+    color: #fff;
+    text-decoration: none;
+}
+
+td a:hover {
+    background-color: #8B0000; 
+}
+
+/* Event Section */
+h2 {
+    color: #8B0000; 
+    margin-top: 30px;
+}
+
+div {
+    background-color: #706f6f;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 20px;
+}
+
+div strong {
+    color: #fff;
+}
+
+div p {
+    color: #ddd;
+}
+
+hr {
+    border: 1px solid #777; 
+}
+
+/* Form Styling */
+form {
+    background-color: #535353;
+    padding: 20px;
+    border-radius: 8px;
+    margin-top: 20px;
+}
+
+label {
+    color: #ddd;
+    display: block;
+    margin-bottom: 8px;
+}
+
+input[type="text"], input[type="time"], textarea {
+    width: 100%;
+    padding: 10px;
+    margin: 5px 0 20px 0;
+    border: 1px solid #666;
+    background-color: #444;
+    color: #fff;
+    border-radius: 5px;
+}
+
+textarea {
+    height: 120px;
+}
+
+input[type="submit"] {
+    background-color: #8B0000; 
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+input[type="submit"]:hover {
+    background-color: #b20000; 
+}
+
+/* Links */
+a {
+    color: #8B0000; 
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
