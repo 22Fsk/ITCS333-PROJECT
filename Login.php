@@ -1,8 +1,8 @@
-<?php
+<?php 
 session_start(); // Start the session to store user data
 
 // Initialize error message variable
-$errorMessage = "";
+$errorMessage = ""; // Make sure this is initialized to avoid undefined variable warnings
 
 // Check if the form is submitted and email is provided
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["email"])) {
@@ -44,7 +44,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["email"])) {
                 <input type="email" id="email" name="email" placeholder="Enter your email" required>
                 
                 <!-- Display error message if set -->
-                <?php if ($errorMessage): ?>
+                <?php if (!empty($errorMessage)): ?>
                     <p style="color: red;"><?php echo htmlspecialchars($errorMessage); ?></p>
                 <?php endif; ?>
 
@@ -52,6 +52,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["email"])) {
                     <button type="submit" class="login-btn">Login with Email</button>
                 </div>
             </form>
+
+            <!-- Registration Link -->
+            <p class="register-link">
+                Don't have an account? <a href="Registration.php">Register here</a>.
+            </p>
         </div>
     </div>
 </body>
