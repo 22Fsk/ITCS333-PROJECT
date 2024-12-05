@@ -1,27 +1,64 @@
-<?php 
-session_start(); // Start the session to store user data
+<?php
+session_start(); // Start the session
 
 // Initialize error message variable
 $errorMessage = ""; // Make sure this is initialized to avoid undefined variable warnings
 
-// Check if the form is submitted and email is provided
-if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["email"])) {
+// Database connection
+$servername = "localhost";
+$username = "root"; // Replace with your DB username
+$password = ""; // Replace with your DB password
+$dbname = "uob_database";
+
+// Establish a connection
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+// Check the connection
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
+// Handle login form submission
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = $_POST["email"];
+    $password = $_POST["password"];
 
     // Validate the email format
-    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+    if (empty($email) || empty($password)) {
+        $errorMessage = "Error: Email and password are required.";
+    } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         $errorMessage = "Error: Invalid email format.";
-    }
-    // Check if the email ends with @uob.edu.bh
-    elseif (substr($email, -11) !== "@uob.edu.bh") {
-        $errorMessage = "Error: The email must end with @uob.edu.bh";
+    } elseif (substr($email, -11) !== "@uob.edu.bh") {
+        $errorMessage = "Error: The email must end with @uob.edu.bh.";
     } else {
-        // If everything is valid, store the email in session and redirect to the home page
-        $_SESSION['email'] = $email; // Store email in session
-        header("Location: Homepage.php"); // Redirect to Homepage.php
-        exit(); // Make sure the script stops after the redirect
+        // Check the email and password against the database
+        $stmt = $conn->prepare("SELECT password_hash FROM users WHERE email = ?");
+        $stmt->bind_param("s", $email);
+        $stmt->execute();
+        $stmt->store_result();
+
+        if ($stmt->num_rows > 0) {
+            $stmt->bind_result($passwordHash);
+            $stmt->fetch();
+
+            // Verify the password
+            if (password_verify($password, $passwordHash)) {
+                $_SESSION['email'] = $email; // Store email in session
+                header("Location: Homepage.php"); // Redirect to Homepage.php
+                exit(); // Stop the script after redirect
+            } else {
+                $errorMessage = "Error: Incorrect password.";
+            }
+        } else {
+            $errorMessage = "Error: Email not registered.";
+        }
+
+        $stmt->close();
     }
 }
+
+// Close the database connection
+$conn->close();
 ?>
 
 <!DOCTYPE html>
@@ -39,17 +76,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["email"])) {
             <p>Welcome to the University of Bahrain Doctors' Schedule and Alerts System</p>
             
             <!-- Login Form -->
-            <form action="login.php" method="POST">
+            <form action="Login.php" method="POST">
                 <label for="email">Email Address</label>
                 <input type="email" id="email" name="email" placeholder="Enter your email" required>
                 
-                <!-- Display error message if set -->
-                <?php if (!empty($errorMessage)): ?>
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" placeholder="Enter your password" required>
+
+                <!-- Display error or informational message -->
+                <?php if ($errorMessage): ?>
                     <p style="color: red;"><?php echo htmlspecialchars($errorMessage); ?></p>
                 <?php endif; ?>
 
                 <div class="login-btn-container">
-                    <button type="submit" class="login-btn">Login with Email</button>
+                    <button type="submit" class="login-btn">Login</button>
                 </div>
             </form>
 

@@ -1,0 +1,111 @@
+/* Profile Container */
+.profile-container {
+    width: 50%;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #d4d4d4;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.profile-container h1 {
+    color: #B22222;
+    font-size: 32px;
+    margin-bottom: 20px;
+}
+
+/* Profile Info Form */
+.profile-info {
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.profile-info label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #333;
+}
+
+.profile-info input,
+.profile-info select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 16px;
+    font-family: Arial, sans-serif;
+}
+
+.profile-info select {
+    background-color: #f9f9f9;
+}
+
+.profile-info input[type="file"] {
+    padding: 5px;
+    margin-bottom: 0;
+    border: none;
+}
+
+/* Profile Photo Preview */
+.preview {
+    margin-top: 10px;
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border: 1px solid #ddd;
+    border-radius: 50%;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Button Styling */
+.update-btn {
+    background-color: #B22222;
+    color: white;
+    padding: 15px 30px;
+    font-size: 18px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 100%;
+    transition: background-color 0.3s ease-in-out;
+}
+
+.update-btn:hover {
+    background-color: #8B0000;
+}
+
+/* Link Styling */
+a {
+    color: #7f8c8d;
+    text-decoration: none;
+    font-size: 14px;
+    margin-top: 20px;
+    display: inline-block;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+    .profile-container {
+        width: 90%;
+        padding: 15px;
+    }
+
+    .update-btn {
+        padding: 12px 20px;
+        font-size: 16px;
+    }
+
+    .profile-info input,
+    .profile-info select {
+        font-size: 14px;
+    }
+}

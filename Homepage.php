@@ -3,7 +3,7 @@ session_start();
 
 // Redirect to login page if no email session exists
 if (!isset($_SESSION['email'])) {
-    header("Location: Homepage.php");
+    header("Location: login.php");
     exit();
 }
 ?>
