@@ -51,7 +51,7 @@ h1, h2, p {
 }
 
 .header-center .university-logo {
-    width: 50px; /* Increased size */
+    width: 150px; /* Increased size */
     height: auto;
 }
 
@@ -99,7 +99,7 @@ main {
     background-color: #c0392b;
     color: white;
     width: 200px; /* Fixed width for uniformity */
-    height: 60px; /* Fixed height for uniformity */
+    height: 30px; /* Fixed height for uniformity */
     padding: 15px 0; /* Vertically centering the text */
     font-size: 18px;
     text-decoration: none;
@@ -123,6 +123,7 @@ footer {
     font-size: 14px;
     border-top: 2px solid #f0f0f0;
     margin-top: 40px;
+    /*margin-bottom: auto;*/
 }
 
 /* Mobile Responsiveness (max-width: 768px) */

@@ -31,20 +31,32 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     } elseif (substr($email, -11) !== "@uob.edu.bh") {
         $errorMessage = "The email must end with @uob.edu.bh.";
     } else {
-        // Hash the password
-        $passwordHash = password_hash($password, PASSWORD_BCRYPT);
+        // Check if the user already exists
+        $stmt = $conn->prepare("SELECT id FROM users WHERE email = ?");
+        $stmt->bind_param("s", $email);
+        $stmt->execute();
+        $stmt->store_result();
 
-        // Insert the data into the database
-        $stmt = $conn->prepare("INSERT INTO users (full_name, email, password_hash) VALUES (?, ?, ?)");
-        $stmt->bind_param("sss", $fullName, $email, $passwordHash);
-
-        if ($stmt->execute()) {
-            $successMessage = "Registration successful! You can now log in.";
+        if ($stmt->num_rows > 0) {
+            // User already registered, redirect to login page
+            header("Location: Login.php?message=already_registered");
+            exit();
         } else {
-            $errorMessage = "Error: " . $stmt->error;
-        }
+            // Hash the password
+            $passwordHash = password_hash($password, PASSWORD_BCRYPT);
 
-        $stmt->close();
+            // Insert the data into the database
+            $stmt = $conn->prepare("INSERT INTO users (full_name, email, password_hash) VALUES (?, ?, ?)");
+            $stmt->bind_param("sss", $fullName, $email, $passwordHash);
+
+            if ($stmt->execute()) {
+                $successMessage = "Registration successful! You can now log in.";
+            } else {
+                $errorMessage = "Error: " . $stmt->error;
+            }
+
+            $stmt->close();
+        }
     }
 }
 
