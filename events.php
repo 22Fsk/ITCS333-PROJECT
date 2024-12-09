@@ -52,8 +52,9 @@ if (isset($_GET['delete_event'])) {
     echo "<p>Event deleted successfully!</p><br />";
 }
 
-// Generate calendar for the month
 function generateCalendar($month, $year) {
+    global $pdo;  // Declare $pdo as global
+
     // Ensure the year is at least 2024
     $year = max(2024, $year);  // This will set the year to 2024 if it is less than 2024.
 
@@ -61,6 +62,14 @@ function generateCalendar($month, $year) {
     $first_day_of_month = strtotime("$year-$month-01");
     $total_days_in_month = date('t', $first_day_of_month);
     $first_weekday = date('w', $first_day_of_month);  // 0 for Sunday, 6 for Saturday
+
+    // Fetch events for the entire month to check which days have events
+    $stmt = $pdo->prepare("SELECT event_date FROM schedules WHERE MONTH(event_date) = ? AND YEAR(event_date) = ?");
+    $stmt->execute([$month, $year]);
+    $events = $stmt->fetchAll(PDO::FETCH_COLUMN, 0); // Get only event dates as an array
+
+    // Create an associative array for quick lookup of event dates
+    $event_dates = array_flip($events);
 
     echo "<table border='1' cellpadding='10'>";
     echo "<tr><th colspan='7'>" . date('F Y', $first_day_of_month) . "</th></tr>";
@@ -81,7 +90,13 @@ function generateCalendar($month, $year) {
                 echo "<td></td>";
             } else {
                 if ($current_day <= $total_days_in_month) {
-                    echo "<td><a href='?date=" . $year . "-" . str_pad($month, 2, '0', STR_PAD_LEFT) . "-" . str_pad($current_day, 2, '0', STR_PAD_LEFT) . "'>$current_day</a></td>";
+                    // Format the current day as YYYY-MM-DD for comparison
+                    $formatted_date = "$year-" . str_pad($month, 2, '0', STR_PAD_LEFT) . "-" . str_pad($current_day, 2, '0', STR_PAD_LEFT);
+
+                    // Check if this day has events
+                    $class = isset($event_dates[$formatted_date]) ? 'has-event' : '';
+
+                    echo "<td class='$class'><a href='?date=$formatted_date'>$current_day</a></td>";
                     $current_day++;
                 } else {
                     echo "<td></td>";
@@ -94,6 +109,7 @@ function generateCalendar($month, $year) {
 
     echo "</table>";
 }
+
 
 // View events for a specific date
 if (isset($_GET['date'])) {

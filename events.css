@@ -182,4 +182,19 @@ a {
 a:hover {
     text-decoration: underline;
 }
+/* Highlight days with events */
+td.has-event {
+    background-color: #d32f2f; /* Red background for event days */
+    color: white; /* White text for contrast */
+    font-weight: bold; /* Bold text */
+}
+
+td.has-event a {
+    color: white; /* Make links inside event days white */
+}
+
+td.has-event a:hover {
+    background-color: #b71c1c; /* Darken the background when hovered */
+}
+
 
