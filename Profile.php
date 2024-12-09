@@ -176,7 +176,7 @@ $conn->close();
             <button type="submit" name="update_password" class="update-btn">Update Password</button>
         </form>
 
-        <a href="Logout.php">Logout</a>
+        <a href="Login.php">Logout</a>
     </div>
 
     <script src="Profile.js"></script>
