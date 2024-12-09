@@ -48,8 +48,8 @@ if (!isset($_SESSION['email'])) {
 
             <!-- Action Buttons -->
             <div class="button-container">
-                <a href="add_alert.php" class="action-btn">Add Alert</a>
-                <a href="edit_schedule.php" class="action-btn">Edit Schedule</a>
+                <a href="events.php" class="action-btn">Add Alert</a>
+                <a href="schedule.php" class="action-btn">Edit Schedule</a>
             </div>
         </main>
 
