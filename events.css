@@ -1,4 +1,4 @@
-body {
+body { 
     font-family: Arial, sans-serif;
     background-color: #f4f4f4;  
     color: #130d0d;
@@ -223,5 +223,87 @@ a.view-events-button:hover {
     text-align: center;
     margin-top: 20px;
 }
+
+/* Media Queries for Responsiveness */
+
+/* Desktop View: Default (no changes needed for desktop, it’s the baseline) */
+@media (min-width: 1025px) {
+    body {
+        padding: 40px;
+    }
+
+    form {
+        width: 50%;
+        margin: 0 auto;
+    }
+
+    table {
+        margin-top: 40px;
+    }
+
+    .view-events-container {
+        text-align: left;
+    }
+}
+
+/* Tablet View: Between 768px and 1024px */
+@media (min-width: 768px) and (max-width: 1024px) {
+    body {
+        padding: 30px;
+    }
+
+    form {
+        width: 70%;
+        margin: 0 auto;
+    }
+
+    table {
+        font-size: 14px;
+    }
+
+    .view-events-container {
+        text-align: center;
+    }
+}
+
+/* Mobile View: Below 768px */
+@media (max-width: 767px) {
+    body {
+        padding: 15px;
+    }
+
+    form {
+        width: 100%;
+        margin: 0;
+        padding: 15px;
+    }
+
+    input[type="text"], input[type="time"], textarea, select {
+        font-size: 14px;
+        padding: 8px;
+    }
+
+    button {
+        padding: 10px 15px;
+        font-size: 14px;
+    }
+
+    table {
+        font-size: 12px;
+    }
+
+    .view-events-container {
+        text-align: center;
+    }
+
+    .past-events, .upcoming-events {
+        padding: 15px;
+    }
+
+    h1, h2 {
+        font-size: 18px;
+    }
+}
+
 
 
