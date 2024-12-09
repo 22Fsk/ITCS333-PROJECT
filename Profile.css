@@ -1,9 +1,14 @@
+/* Page Background */
+body {
+    background-color: #f5f5f5;
+}
+
 /* Profile Container */
 .profile-container {
     width: 50%;
     margin: 50px auto;
-    padding: 20px;
-    background-color: #d4d4d4;
+    padding: 20px 30px; /* Added left and right padding */
+    background-color: #ffffff;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     text-align: center;
@@ -13,6 +18,17 @@
     color: #B22222;
     font-size: 32px;
     margin-bottom: 20px;
+}
+
+/* Section Header */
+.profile-container h2 {
+    color: #333;
+    font-size: 24px;
+    margin-top: 30px;
+    margin-bottom: 15px;
+    border-bottom: 2px solid #ddd;
+    display: inline-block;
+    padding-bottom: 5px;
 }
 
 /* Profile Info Form */
@@ -30,17 +46,17 @@
 
 .profile-info input,
 .profile-info select {
-    width: 100%;
+    width: calc(100% - 20px); /* Full width minus padding for spacing */
     padding: 10px;
-    margin-bottom: 10px;
-    border: 1px solid #ddd;
+    margin: 0 auto 10px auto; /* Center aligned with space below */
+    border: 2px solid #ddd;
     border-radius: 5px;
     font-size: 16px;
     font-family: Arial, sans-serif;
 }
 
 .profile-info select {
-    background-color: #f9f9f9;
+    background-color: #f5f5f5;
 }
 
 .profile-info input[type="file"] {
@@ -71,12 +87,31 @@
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    width: 100%;
+    width: calc(100% - 20px); /* Full width minus padding for spacing */
+    margin: 0 auto;
     transition: background-color 0.3s ease-in-out;
 }
 
 .update-btn:hover {
     background-color: #8B0000;
+}
+
+/* Password Update Form Styling */
+.password-update-form {
+    margin-top: 30px;
+    text-align: left;
+}
+
+.password-update-form input {
+    margin-bottom: 10px;
+}
+
+.password-update-form .update-btn {
+    background-color: #007BFF;
+}
+
+.password-update-form .update-btn:hover {
+    background-color: #0056b3;
 }
 
 /* Link Styling */

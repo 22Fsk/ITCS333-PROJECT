@@ -161,9 +161,9 @@ footer {
 
 /* Tablet Responsiveness (769px to 1024px) */
 @media screen and (min-width: 769px) and (max-width: 1024px) {
-    .header-center .university-logo {
+    /*.header-center .university-logo {
         width: 40px;
-    }
+    }*/
 
     .header-center h1 {
         font-size: 32px;

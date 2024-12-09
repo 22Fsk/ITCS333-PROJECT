@@ -6,6 +6,42 @@ if (!isset($_SESSION['email'])) {
     header("Location: login.php");
     exit();
 }
+
+// Database connection details
+$servername = "localhost";
+$username = "root"; // Update with your database username
+$password = "";     // Update with your database password
+$dbname = "uob_database"; // Your database name
+
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+// Check the connection
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
+// Get the current user's email
+$email = $_SESSION['email'];
+
+// Fetch user data from the database
+$sql = "SELECT full_name, photo FROM users WHERE email = ?";
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("s", $email);
+$stmt->execute();
+$result = $stmt->get_result();
+
+if ($result->num_rows === 0) {
+    die("No user found.");
+}
+
+$user = $result->fetch_assoc();
+
+// Extract user details
+$profilePhoto = !empty($user['photo']) ? htmlspecialchars($user['photo']) : "default-profile.png"; // Default profile picture if none exists
+$fullName = htmlspecialchars($user['full_name']);
+
+// Close the database connection
+$conn->close();
 ?>
 
 <!DOCTYPE html>
@@ -17,10 +53,9 @@ if (!isset($_SESSION['email'])) {
     <link rel="stylesheet" href="Homepage.css">
 </head>
 <body>
-    <!-- Profile Picture at the top left, moved a little inside -->
+    <!-- Profile Picture at the top left -->
     <a href="profile.php" class="profile-link">
-        <img src="https://th.bing.com/th/id/R.fa0ca630a6a3de8e33e03a009e406acd?rik=MMtJ1mm73JsM6w&riu=http%3a%2f%2fclipart-library.com%2fimg%2f1905734.png&ehk=iv2%2fLMRQKA2W8JFWCwwq6BdYfKr2FmBAlFys22RmPI8%3d&risl=&pid=ImgRaw&r=0"
-             alt="Profile Picture" class="profile-pic">
+        <img src="<?php echo $profilePhoto; ?>" alt="Profile Picture" class="profile-pic">
     </a>
 
     <!-- Main Container -->
@@ -37,12 +72,7 @@ if (!isset($_SESSION['email'])) {
         <!-- Main Section -->
         <main>
             <div class="welcome-message">
-                <h2>Welcome, Dr. <?php 
-                   // Get the part of the email before "@uob.edu.bh"
-                    $email = $_SESSION['email'];
-                    $username = substr($email, 0, strpos($email, '@')); 
-                    echo htmlspecialchars($username); 
-                ?>!</h2>
+                <h2>Welcome, Dr. <?php echo $fullName; ?>!</h2>
                 <p>You have successfully logged in to the system. Choose one of the following options:</p>
             </div>
 
