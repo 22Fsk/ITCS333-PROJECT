@@ -233,6 +233,13 @@ if (isset($_GET['date'])) {
     $year = isset($_GET['year']) ? $_GET['year'] : date('Y');
     generateCalendar($month, $year);
 
+// Navigation links for month
+$next_year = ($month == 12) ? $year + 1 : $year;
+$prev_year = ($month == 1) ? max(2024, $year - 1) : $year; // Prevent going before 2024
+echo "<br><a href='?month=" . ($month - 1) . "&year=$prev_year'>Previous Month</a> | 
+      <a href='?month=" . ($month + 1) . "&year=$next_year'>Next Month</a>";
+
+
     // Add navigation buttons for past and upcoming events
     echo "<br><a href='?past_events=true'>Past Events</a> | 
           <a href='?upcoming_events=true'>Upcoming Events</a>";
