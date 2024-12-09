@@ -4,7 +4,6 @@ $dbname = 'schedule';
 $username = 'root';
 $password = '';
 
-
 try {
     $pdo = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -12,7 +11,7 @@ try {
     die("Could not connect to the database: " . $e->getMessage());
 }
 
-
+// Insert new event
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['event_title'])) {
     $event_title = $_POST['event_title'];
     $event_description = $_POST['event_description'];
@@ -39,6 +38,7 @@ if (isset($_POST['update_event'])) {
     $stmt->execute([$event_title, $event_description, $event_time, $event_id]);
 
     echo "<p>Event updated successfully!</p><br />";
+    echo "<a href='?'>Back to Calendar</a>";
 }
 
 // Delete event functionality
@@ -52,6 +52,7 @@ if (isset($_GET['delete_event'])) {
     echo "<p>Event deleted successfully!</p><br />";
 }
 
+// Generate the calendar
 function generateCalendar($month, $year) {
     global $pdo;  // Declare $pdo as global
 
@@ -110,7 +111,6 @@ function generateCalendar($month, $year) {
     echo "</table>";
 }
 
-
 // View events for a specific date
 if (isset($_GET['date'])) {
     $date = $_GET['date'];
@@ -154,7 +154,6 @@ if (isset($_GET['date'])) {
         </form>";
 
     echo "<br><a href='?'>Back to Calendar</a>";
-
 } elseif (isset($_GET['edit_event'])) {
     // Edit event functionality
     $event_id = $_GET['edit_event'];
@@ -184,22 +183,59 @@ if (isset($_GET['date'])) {
     } else {
         echo "<p>Event not found.</p>";
     }
+} elseif (isset($_GET['past_events'])) {
+    // Fetch and display past events
+    $stmt = $pdo->prepare("SELECT * FROM schedules WHERE event_date < CURDATE() ORDER BY event_date DESC");
+    $stmt->execute();
+    $events = $stmt->fetchAll();
+
+    echo "<div class='past-events'>";
+    echo "<h2>Past Events</h2>";
+
+    if ($events) {
+        foreach ($events as $event) {
+            echo "<div><strong>" . htmlspecialchars($event['event_title']) . "</strong><br />";
+            echo "<p>" . htmlspecialchars($event['event_description']) . "</p>";
+            echo "<p>Date: " . $event['event_date'] . " | Time: " . $event['event_time'] . "</p>";
+            echo "</div><hr />";
+        }
+    } else {
+        echo "<p>No past events found.</p>";
+    }
+
+    echo "</div><br>";
+    echo "<a href='?'>Back to Calendar</a>";
+} elseif (isset($_GET['upcoming_events'])) {
+    // Fetch and display upcoming events
+    $stmt = $pdo->prepare("SELECT * FROM schedules WHERE event_date >= CURDATE() ORDER BY event_date ASC");
+    $stmt->execute();
+    $events = $stmt->fetchAll();
+
+    echo "<div class='upcoming-events'>";
+    echo "<h2>Upcoming Events</h2>";
+
+    if ($events) {
+        foreach ($events as $event) {
+            echo "<div><strong>" . htmlspecialchars($event['event_title']) . "</strong><br />";
+            echo "<p>" . htmlspecialchars($event['event_description']) . "</p>";
+            echo "<p>Date: " . $event['event_date'] . " | Time: " . $event['event_time'] . "</p>";
+            echo "</div><hr />";
+        }
+    } else {
+        echo "<p>No upcoming events found.</p>";
+    }
+
+    echo "</div><br>";
+    echo "<a href='?'>Back to Calendar</a>";
 } else {
     // Show the calendar
     $month = isset($_GET['month']) ? $_GET['month'] : date('n');
     $year = isset($_GET['year']) ? $_GET['year'] : date('Y');
     generateCalendar($month, $year);
 
-    
-
-// Navigation links for month
-$next_year = ($month == 12) ? $year + 1 : $year;
-$prev_year = ($month == 1) ? max(2024, $year - 1) : $year; // Prevent going before 2024
-
-echo "<br><a href='?month=" . ($month - 1) . "&year=$prev_year'>Previous Month</a> | 
-      <a href='?month=" . ($month + 1) . "&year=$next_year'>Next Month</a>";
-
-
+    // Add navigation buttons for past and upcoming events
+    echo "<br><a href='?past_events=true'>Past Events</a> | 
+          <a href='?upcoming_events=true'>Upcoming Events</a>";
 }
 ?>
 
@@ -216,3 +252,4 @@ echo "<br><a href='?month=" . ($month - 1) . "&year=$prev_year'>Previous Month</
     <!-- Your PHP-generated content will be displayed here -->
 </body>
 </html>
+

@@ -19,7 +19,7 @@ form {
     margin-bottom: 30px;
 }
 
-input[type="text"], input[type="time"], input[type="number"], select {
+input[type="text"], input[type="time"], input[type="number"], select, textarea {
     width: 100%;
     padding: 10px;
     margin: 10px 0;
@@ -70,7 +70,8 @@ tr:nth-child(even) {
 }
 
 tr:hover {
-    background-color: #e9e9e9; }
+    background-color: #e9e9e9;
+}
 
 th, td {
     padding: 10px;
@@ -169,6 +170,7 @@ a {
 a:hover {
     text-decoration: underline;
 }
+
 /* Highlight days with events */
 td.has-event {
     background-color: #d32f2f; /* Red background for event days */
@@ -182,6 +184,44 @@ td.has-event a {
 
 td.has-event a:hover {
     background-color: #b71c1c; /* Darken the background when hovered */
+}
+
+.past-events, .upcoming-events {
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.past-events h2, .upcoming-events h2 {
+    font-size: 1.5em;
+    margin-bottom: 20px;
+}
+
+.past-events div, .upcoming-events div {
+    margin-bottom: 20px;
+}
+
+/* Buttons below the calendar */
+a.view-events-button {
+    background-color: #d32f2f;
+    color: #fff;
+    padding: 12px 20px;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+    display: inline-block;
+    margin-top: 20px;
+}
+
+a.view-events-button:hover {
+    background-color: #b71c1c;
+}
+
+/* Ensuring the buttons don't overlap */
+.view-events-container {
+    text-align: center;
+    margin-top: 20px;
 }
 
 
