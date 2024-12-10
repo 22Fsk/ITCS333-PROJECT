@@ -9,9 +9,9 @@ if (!isset($_SESSION['email'])) {
 
 // Database connection details
 $servername = "localhost";
-$username = "root"; // Update with your database username
-$password = "";     // Update with your database password
-$dbname = "uob_database"; // Your database name
+$username = "root"; 
+$password = "";     
+$dbname = "uob_database"; 
 
 $conn = new mysqli($servername, $username, $password, $dbname);
 
@@ -40,7 +40,6 @@ $user = $result->fetch_assoc();
 $profilePhoto = !empty($user['photo']) ? htmlspecialchars($user['photo']) : "default-profile.png"; // Default profile picture if none exists
 $fullName = htmlspecialchars($user['full_name']);
 
-// Close the database connection
 $conn->close();
 ?>
 
@@ -53,14 +52,11 @@ $conn->close();
     <link rel="stylesheet" href="Homepage.css">
 </head>
 <body>
-    <!-- Profile Picture at the top left -->
     <a href="profile.php" class="profile-link">
         <img src="<?php echo $profilePhoto; ?>" alt="Profile Picture" class="profile-pic">
     </a>
 
-    <!-- Main Container -->
     <div class="container">
-        <!-- Header Section without background -->
         <header>
             <div class="header-center">
                 <img src="https://iconape.com/wp-content/files/zj/195381/png/unversity_of_bahrain-logo.png" alt="University of Bahrain Logo" class="university-logo">

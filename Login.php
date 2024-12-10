@@ -1,13 +1,13 @@
 <?php
-session_start(); // Start the session
+session_start(); 
 
 // Initialize error message variable
-$errorMessage = ""; // Make sure this is initialized to avoid undefined variable warnings
+$errorMessage = ""; 
 
 // Database connection
 $servername = "localhost";
-$username = "root"; // Replace with your DB username
-$password = ""; // Replace with your DB password
+$username = "root"; 
+$password = ""; 
 $dbname = "uob_database";
 
 // Establish a connection
@@ -45,7 +45,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             if (password_verify($password, $passwordHash)) {
                 $_SESSION['email'] = $email; // Store email in session
                 header("Location: Homepage.php"); // Redirect to Homepage.php
-                exit(); // Stop the script after redirect
+                exit(); 
             } else {
                 $errorMessage = "Error: Incorrect password.";
             }
@@ -57,7 +57,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 }
 
-// Close the database connection
 $conn->close();
 ?>
 

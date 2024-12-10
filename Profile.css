@@ -1,13 +1,11 @@
-/* Page Background */
 body {
     background-color: #f5f5f5;
 }
 
-/* Profile Container */
 .profile-container {
     width: 50%;
     margin: 50px auto;
-    padding: 20px 30px; /* Added left and right padding */
+    padding: 20px 30px; 
     background-color: #ffffff;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -20,7 +18,6 @@ body {
     margin-bottom: 20px;
 }
 
-/* Section Header */
 .profile-container h2 {
     color: #333;
     font-size: 24px;
@@ -31,7 +28,6 @@ body {
     padding-bottom: 5px;
 }
 
-/* Profile Info Form */
 .profile-info {
     margin-bottom: 20px;
     text-align: left;
@@ -46,9 +42,9 @@ body {
 
 .profile-info input,
 .profile-info select {
-    width: calc(100% - 20px); /* Full width minus padding for spacing */
+    width: calc(100% - 20px);
     padding: 10px;
-    margin: 0 auto 10px auto; /* Center aligned with space below */
+    margin: 0 auto 10px auto;
     border: 2px solid #ddd;
     border-radius: 5px;
     font-size: 16px;
@@ -65,7 +61,6 @@ body {
     border: none;
 }
 
-/* Profile Photo Preview */
 .preview {
     margin-top: 10px;
     width: 100px;
@@ -78,7 +73,6 @@ body {
     margin-right: auto;
 }
 
-/* Button Styling */
 .update-btn {
     background-color: #B22222;
     color: white;
@@ -87,7 +81,7 @@ body {
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    width: calc(100% - 20px); /* Full width minus padding for spacing */
+    width: calc(100% - 20px);
     margin: 0 auto;
     transition: background-color 0.3s ease-in-out;
 }
@@ -96,7 +90,6 @@ body {
     background-color: #8B0000;
 }
 
-/* Password Update Form Styling */
 .password-update-form {
     margin-top: 30px;
     text-align: left;
@@ -114,7 +107,6 @@ body {
     background-color: #0056b3;
 }
 
-/* Link Styling */
 a {
     color: #7f8c8d;
     text-decoration: none;
@@ -127,7 +119,6 @@ a:hover {
     text-decoration: underline;
 }
 
-/* Mobile Responsiveness */
 @media (max-width: 768px) {
     .profile-container {
         width: 90%;

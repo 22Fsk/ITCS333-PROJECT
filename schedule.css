@@ -59,11 +59,11 @@ button:hover {
 }
 
 .class {
-    background-color: #ffcccc; /* Light red for classes */
+    background-color: #ffcccc;
 }
 
 .office_hour {
-    background-color: #b6b6b6; /* Grey for office hours */
+    background-color: #b6b6b6;
 }
 
 .week-schedule {
@@ -100,11 +100,11 @@ button:hover {
 }
 
 .time-slot.class {
-    background-color: #e2d273; /* Strong red for classes */
+    background-color: #e2d273;
 }
 
 .time-slot.office_hour {
-    background-color: #b9b9b9; /* Dark grey for office hours */
+    background-color: #b9b9b9;
 }
 
 .conditional {

@@ -1,23 +1,19 @@
-/* General Body Styles */
 body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #f7f7f7; /* Light grey background */
+    background-color: #f7f7f7; 
 }
 
-/* Container for the login page */
 .login-container {
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
-    background-color: #f0f0f0; /* Beige background */
-}
+    background-color: #f0f0f0; }
 
-/* Box styling for login form */
 .login-box {
-    background-color: #ffffff; /* White background for the login box */
+    background-color: #ffffff; 
     padding: 30px;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -27,21 +23,19 @@ body {
     transition: all 0.3s ease-in-out;
 }
 
-/* Header text style */
+
 .login-box h1 {
-    color: #B22222; /* Red color */
+    color: #B22222; 
     margin-bottom: 20px;
     font-size: 32px;
 }
 
-/* Paragraph text style */
 .login-box p {
     font-size: 16px;
-    color: #555; /* Dark grey text */
+    color: #555; 
     margin-bottom: 20px;
 }
 
-/* Label for the input field */
 .login-box label {
     display: block;
     text-align: left;
@@ -50,7 +44,6 @@ body {
     margin-bottom: 5px;
 }
 
-/* Input field styles */
 .login-box input {
     width: 100%;
     padding: 12px;
@@ -62,19 +55,17 @@ body {
     background-color: #fafafa;
 }
 
-/* Focus effect on the input field */
 .login-box input:focus {
     outline: none;
-    border-color: #B22222; /* Red border on focus */
+    border-color: #B22222; 
 }
 
-/* Login button styling */
 .login-btn-container {
     text-align: center;
 }
 
 .login-btn {
-    background-color: #B22222; /* Red background for the button */
+    background-color: #B22222; 
     color: white;
     padding: 15px 30px;
     font-size: 18px;
@@ -86,21 +77,19 @@ body {
     transition: background-color 0.3s ease;
 }
 
-/* Hover effect for login button */
 .login-btn:hover {
-    background-color: #8B0000; /* Darker red on hover */
+    background-color: #8B0000; 
 }
 
-/* Registration Link */
 .register-link {
     margin-top: 15px;
     font-size: 14px;
-    color: #7f8c8d; /* Light grey for text */
+    color: #7f8c8d; 
     text-align: center;
 }
 
 .register-link a {
-    color: #c0392b; /* Red for the link */
+    color: #c0392b; 
     text-decoration: none;
     font-weight: bold;
 }

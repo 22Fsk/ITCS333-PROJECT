@@ -1,8 +1,8 @@
 <?php
 // Database connection
 $servername = "localhost";
-$username = "root"; // Replace with your DB username
-$password = ""; // Replace with your DB password
+$username = "root"; 
+$password = ""; 
 $dbname = "uob_database";
 
 // Establish a connection

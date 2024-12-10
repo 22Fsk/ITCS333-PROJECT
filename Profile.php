@@ -14,9 +14,9 @@ if (!isset($_SESSION['email'])) {
 
 // Database connection details
 $servername = "localhost";
-$username = "root"; // Update with your database username
-$password = "";     // Update with your database password
-$dbname = "uob_database"; // Your database name
+$username = "root"; 
+$password = "";     
+$dbname = "uob_database"; 
 
 $conn = new mysqli($servername, $username, $password, $dbname);
 
@@ -108,7 +108,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update_password'])) {
 }
 
 
-// Close the database connection
 $conn->close();
 ?>
 <!DOCTYPE html>
