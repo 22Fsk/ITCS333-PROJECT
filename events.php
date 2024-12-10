@@ -11,14 +11,14 @@ try {
     die("Could not connect to the database: " . $e->getMessage());
 }
 
-// Insert new event
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['event_title'])) {
     $event_title = $_POST['event_title'];
     $event_description = $_POST['event_description'];
     $event_date = isset($_POST['event_date']) ? $_POST['event_date'] : '';
     $event_time = $_POST['event_time'];
 
-    // Insert into the database
+   
     $stmt = $pdo->prepare("INSERT INTO schedules (event_title, event_description, event_date, event_time) 
                            VALUES (?, ?, ?, ?)");
     $stmt->execute([$event_title, $event_description, $event_date, $event_time]);
@@ -26,14 +26,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['event_title'])) {
     echo "<p>Event added successfully!</p><br />";
 }
 
-// Update event functionality
+
 if (isset($_POST['update_event'])) {
     $event_id = $_POST['event_id'];
     $event_title = $_POST['event_title'];
     $event_description = $_POST['event_description'];
     $event_time = $_POST['event_time'];
 
-    // Update event in the database
+    
     $stmt = $pdo->prepare("UPDATE schedules SET event_title = ?, event_description = ?, event_time = ? WHERE id = ?");
     $stmt->execute([$event_title, $event_description, $event_time, $event_id]);
 
@@ -41,35 +41,33 @@ if (isset($_POST['update_event'])) {
     echo "<a href='?'>Back to Calendar</a>";
 }
 
-// Delete event functionality
+
 if (isset($_GET['delete_event'])) {
     $event_id = $_GET['delete_event'];
 
-    // Delete event from the database
+    
     $stmt = $pdo->prepare("DELETE FROM schedules WHERE id = ?");
     $stmt->execute([$event_id]);
 
     echo "<p>Event deleted successfully!</p><br />";
 }
 
-// Generate the calendar
+
 function generateCalendar($month, $year) {
-    global $pdo;  // Declare $pdo as global
+    global $pdo;  
 
-    // Ensure the year is at least 2024
-    $year = max(2024, $year);  // This will set the year to 2024 if it is less than 2024.
+    $year = max(2024, $year);  
 
-    // Get the first day of the month and the number of days in the month
+  
     $first_day_of_month = strtotime("$year-$month-01");
     $total_days_in_month = date('t', $first_day_of_month);
-    $first_weekday = date('w', $first_day_of_month);  // 0 for Sunday, 6 for Saturday
+    $first_weekday = date('w', $first_day_of_month);  
 
-    // Fetch events for the entire month to check which days have events
+   
     $stmt = $pdo->prepare("SELECT event_date FROM schedules WHERE MONTH(event_date) = ? AND YEAR(event_date) = ?");
     $stmt->execute([$month, $year]);
-    $events = $stmt->fetchAll(PDO::FETCH_COLUMN, 0); // Get only event dates as an array
-
-    // Create an associative array for quick lookup of event dates
+    $events = $stmt->fetchAll(PDO::FETCH_COLUMN, 0); 
+   
     $event_dates = array_flip($events);
 
     echo "<table border='1' cellpadding='10'>";
@@ -85,16 +83,16 @@ function generateCalendar($month, $year) {
           </tr><tr>";
 
     $current_day = 1;
-    for ($i = 0; $i < 6; $i++) { // 6 rows max
+    for ($i = 0; $i < 6; $i++) { 
         for ($j = 0; $j < 7; $j++) {
             if ($i === 0 && $j < $first_weekday) {
                 echo "<td></td>";
             } else {
                 if ($current_day <= $total_days_in_month) {
-                    // Format the current day as YYYY-MM-DD for comparison
+                   
                     $formatted_date = "$year-" . str_pad($month, 2, '0', STR_PAD_LEFT) . "-" . str_pad($current_day, 2, '0', STR_PAD_LEFT);
 
-                    // Check if this day has events
+                    
                     $class = isset($event_dates[$formatted_date]) ? 'has-event' : '';
 
                     echo "<td class='$class'><a href='?date=$formatted_date'>$current_day</a></td>";
@@ -111,11 +109,11 @@ function generateCalendar($month, $year) {
     echo "</table>";
 }
 
-// View events for a specific date
+
 if (isset($_GET['date'])) {
     $date = $_GET['date'];
 
-    // Fetch events for the selected date
+    
     $stmt = $pdo->prepare("SELECT * FROM schedules WHERE event_date = ?");
     $stmt->execute([$date]);
     $events = $stmt->fetchAll();
@@ -155,10 +153,10 @@ if (isset($_GET['date'])) {
 
     echo "<br><a href='?'>Back to Calendar</a>";
 } elseif (isset($_GET['edit_event'])) {
-    // Edit event functionality
+   
     $event_id = $_GET['edit_event'];
     
-    // Fetch the event to be edited
+    
     $stmt = $pdo->prepare("SELECT * FROM schedules WHERE id = ?");
     $stmt->execute([$event_id]);
     $event = $stmt->fetch();
@@ -206,7 +204,7 @@ if (isset($_GET['date'])) {
     echo "</div><br>";
     echo "<a href='?'>Back to Calendar</a>";
 } elseif (isset($_GET['upcoming_events'])) {
-    // Fetch and display upcoming events
+   
     $stmt = $pdo->prepare("SELECT * FROM schedules WHERE event_date >= CURDATE() ORDER BY event_date ASC");
     $stmt->execute();
     $events = $stmt->fetchAll();
@@ -228,22 +226,22 @@ if (isset($_GET['date'])) {
     echo "</div><br>";
     echo "<a href='?'>Back to Calendar</a>";
 } else {
-    // Show the calendar
+   
     $month = isset($_GET['month']) ? $_GET['month'] : date('n');
     $year = isset($_GET['year']) ? $_GET['year'] : date('Y');
     generateCalendar($month, $year);
 
-    // Navigation links for month
-    $next_month = ($month == 12) ? 1 : $month + 1; // If December, set to January (1)
-    $next_year = ($month == 12) ? $year + 1 : $year; // If December, increment the year
+    
+    $next_month = ($month == 12) ? 1 : $month + 1; 
+    $next_year = ($month == 12) ? $year + 1 : $year; 
 
-    $prev_month = ($month == 1) ? 12 : $month - 1; // If January, set to December (12)
-    $prev_year = ($month == 1) ? max(2024, $year - 1) : $year; // Prevent going before 2024
+    $prev_month = ($month == 1) ? 12 : $month - 1; 
+    $prev_year = ($month == 1) ? max(2024, $year - 1) : $year; 
 
     echo "<br><a href='?month=$prev_month&year=$prev_year'>Previous Month</a> | 
           <a href='?month=$next_month&year=$next_year'>Next Month</a>";
 
-    // Add navigation buttons for past and upcoming events
+    
     echo "<br><a href='?past_events=true'>Past Events</a> | 
           <a href='?upcoming_events=true'>Upcoming Events</a>";
 }
@@ -255,11 +253,11 @@ if (isset($_GET['date'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Monthly Schedule</title>
-    <!-- Link to CSS file -->
+    
     <link rel="stylesheet" href="events.css">
 </head>
 <body>
-    <!-- Your PHP-generated content will be displayed here -->
+   
 </body>
 </html>
 
