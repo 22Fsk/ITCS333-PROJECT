@@ -47,7 +47,6 @@ $conn->close();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Doctor Weekly Schedule</title>
     <link rel="stylesheet" href="schedule.css">
-    
 </head>
 <body>
     <div class="container">
