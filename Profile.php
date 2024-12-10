@@ -78,31 +78,35 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update_profile'])) {
 
 // Handle password update
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update_password'])) {
-    $currentPassword = $_POST['current_password'];
     $newPassword = $_POST['new_password'];
     $confirmPassword = $_POST['confirm_password'];
 
-    // Verify current password
-    if (!password_verify($currentPassword, $user['password'])) {
-        echo "<script>alert('Current password is incorrect');</script>";
-    } elseif ($newPassword !== $confirmPassword) {
+    // Check if the new password and confirm password match
+    if ($newPassword !== $confirmPassword) {
         echo "<script>alert('New password and confirm password do not match');</script>";
     } else {
         // Hash the new password
         $hashedPassword = password_hash($newPassword, PASSWORD_DEFAULT);
 
-        // Update the password in the database
-        $update_password_sql = "UPDATE users SET password = ? WHERE email = ?";
+        // Update the password hash in the database
+        $update_password_sql = "UPDATE users SET password_hash = ? WHERE email = ?";
         $update_password_stmt = $conn->prepare($update_password_sql);
         $update_password_stmt->bind_param("ss", $hashedPassword, $email);
 
         if ($update_password_stmt->execute()) {
             echo "<script>alert('Password updated successfully');</script>";
+
+            // Optionally, you can log the user out after password update
+            session_unset();
+            session_destroy();
+            header("Location: Login.php"); // Redirect to login page
+            exit();
         } else {
             echo "<script>alert('Error updating password: " . $conn->error . "');</script>";
         }
     }
 }
+
 
 // Close the database connection
 $conn->close();
