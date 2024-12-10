@@ -1,6 +1,11 @@
 <?php
 $conn = new mysqli('localhost', 'root', '', 'doctor_schedule');
 
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
+// Insert new schedule entry
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $type = $_POST['type'];
     $course_code = $_POST['course_code'] ?? null;
@@ -18,7 +23,21 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $stmt->bind_param("ssssssss", $type, $course_code, $day, $start_time, $end_time, $classroom, $section, $room);
     $stmt->execute();
     header("Location: schedule.php");
+    exit;
 }
+
+// Fetch existing schedules
+$query = "SELECT * FROM doctor_schedule WHERE doctor_id = 1 ORDER BY day, start_time";
+$result = $conn->query($query);
+
+$schedules = [];
+if ($result->num_rows > 0) {
+    while ($row = $result->fetch_assoc()) {
+        $schedules[$row['day']][] = $row;
+    }
+}
+
+$conn->close();
 ?>
 
 <!DOCTYPE html>
@@ -26,12 +45,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Doctor Schedule</title>
+    <title>Doctor Weekly Schedule</title>
     <link rel="stylesheet" href="schedule.css">
+    
 </head>
 <body>
     <div class="container">
-        <h1>Manage Schedule</h1>
+        <h1>Manage Weekly Schedule</h1>
         <form id="schedule-form" action="schedule.php" method="POST">
             <div class="form-group">
                 <label for="type">Type:</label>
@@ -66,13 +86,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <div class="form-group">
                 <label for="day">Day:</label>
                 <select id="day" name="day" required>
+                    <option value="Saturday">Saturday</option>
+                    <option value="Sunday">Sunday</option>
                     <option value="Monday">Monday</option>
                     <option value="Tuesday">Tuesday</option>
                     <option value="Wednesday">Wednesday</option>
                     <option value="Thursday">Thursday</option>
-                    <option value="Friday">Friday</option>
-                    <option value="Saturday">Saturday</option>
-                    <option value="Sunday">Sunday</option>
                 </select>
             </div>
 
@@ -89,11 +108,48 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <button type="submit">Save Schedule</button>
         </form>
 
-        <div class="schedule">
-            <h2>Your Schedule</h2>
-            <div id="schedule-display"></div>
+        <div class="week-schedule">
+            <h2>Your Weekly Schedule</h2>
+            <?php 
+            $days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+            foreach ($days as $day): ?>
+                <div class="day-column">
+                    <div class="day-header"><?= $day ?></div>
+                    <?php if (isset($schedules[$day])): ?>
+                        <?php foreach ($schedules[$day] as $item): ?>
+                            <div class="time-slot <?= $item['type'] ?>">
+                                <?= $item['start_time'] ?> - <?= $item['end_time'] ?><br>
+                                <?php if ($item['type'] == 'class'): ?>
+                                    <?= $item['course_code'] ?> (<?= $item['section'] ?>)<br>Room: <?= $item['classroom'] ?>
+                                <?php else: ?>
+                                    Office Hour<br>Room: <?= $item['room'] ?>
+                                <?php endif; ?>
+                            </div>
+                        <?php endforeach; ?>
+                    <?php else: ?>
+                        <div class="time-slot">No events</div>
+                    <?php endif; ?>
+                </div>
+            <?php endforeach; ?>
         </div>
     </div>
-    <script src="script.js"></script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const typeSelect = document.getElementById("type");
+            const classOptions = document.getElementById("class-options");
+            const officeOptions = document.getElementById("office-options");
+
+            typeSelect.addEventListener("change", () => {
+                if (typeSelect.value === "class") {
+                    classOptions.style.display = "block";
+                    officeOptions.style.display = "none";
+                } else {
+                    classOptions.style.display = "none";
+                    officeOptions.style.display = "block";
+                }
+            });
+        });
+    </script>
 </body>
 </html>
