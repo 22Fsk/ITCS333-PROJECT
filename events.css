@@ -171,19 +171,19 @@ a:hover {
     text-decoration: underline;
 }
 
-/* Highlight days with events */
+
 td.has-event {
-    background-color: #d32f2f; /* Red background for event days */
-    color: white; /* White text for contrast */
-    font-weight: bold; /* Bold text */
+    background-color: #d32f2f; 
+    color: white; 
+    font-weight: bold; 
 }
 
 td.has-event a {
-    color: white; /* Make links inside event days white */
+    color: white; 
 }
 
 td.has-event a:hover {
-    background-color: #b71c1c; /* Darken the background when hovered */
+    background-color: #b71c1c; 
 }
 
 .past-events, .upcoming-events {
@@ -218,15 +218,13 @@ a.view-events-button:hover {
     background-color: #b71c1c;
 }
 
-/* Ensuring the buttons don't overlap */
+
 .view-events-container {
     text-align: center;
     margin-top: 20px;
 }
 
-/* Media Queries for Responsiveness */
 
-/* Desktop View: Default (no changes needed for desktop, it’s the baseline) */
 @media (min-width: 1025px) {
     body {
         padding: 40px;
@@ -246,7 +244,7 @@ a.view-events-button:hover {
     }
 }
 
-/* Tablet View: Between 768px and 1024px */
+
 @media (min-width: 768px) and (max-width: 1024px) {
     body {
         padding: 30px;
@@ -266,7 +264,7 @@ a.view-events-button:hover {
     }
 }
 
-/* Mobile View: Below 768px */
+
 @media (max-width: 767px) {
     body {
         padding: 15px;
