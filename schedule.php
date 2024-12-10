@@ -5,23 +5,58 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-// Insert new schedule entry
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $type = $_POST['type'];
-    $course_code = $_POST['course_code'] ?? null;
-    $day = $_POST['day'];
-    $start_time = $_POST['start_time'];
-    $end_time = $_POST['end_time'];
-    $classroom = $_POST['classroom'] ?? null;
-    $section = $_POST['section'] ?? null;
-    $room = $_POST['room'] ?? null;
+// Delete schedule entry
+if (isset($_GET['delete_id'])) {
+    $delete_id = $_GET['delete_id'];
 
-    $query = "INSERT INTO doctor_schedule (doctor_id, type, course_code, day, start_time, end_time, classroom, section, room) 
-              VALUES (1, ?, ?, ?, ?, ?, ?, ?, ?)";
-
+    $query = "DELETE FROM doctor_schedule WHERE id = ? AND doctor_id = 1";
     $stmt = $conn->prepare($query);
-    $stmt->bind_param("ssssssss", $type, $course_code, $day, $start_time, $end_time, $classroom, $section, $room);
+    $stmt->bind_param("i", $delete_id);
     $stmt->execute();
+
+    header("Location: schedule.php");
+    exit;
+}
+
+// Insert or update schedule entry
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    if (isset($_POST['schedule_id']) && !empty($_POST['schedule_id'])) {
+        // Update existing schedule
+        $schedule_id = $_POST['schedule_id'];
+        $type = $_POST['type'];
+        $course_code = $_POST['course_code'] ?? null;
+        $day = $_POST['day'];
+        $start_time = $_POST['start_time'];
+        $end_time = $_POST['end_time'];
+        $classroom = $_POST['classroom'] ?? null;
+        $section = $_POST['section'] ?? null;
+        $room = $_POST['room'] ?? null;
+
+        $query = "UPDATE doctor_schedule 
+                  SET type = ?, course_code = ?, day = ?, start_time = ?, end_time = ?, classroom = ?, section = ?, room = ? 
+                  WHERE id = ? AND doctor_id = 1";
+
+        $stmt = $conn->prepare($query);
+        $stmt->bind_param("ssssssssi", $type, $course_code, $day, $start_time, $end_time, $classroom, $section, $room, $schedule_id);
+        $stmt->execute();
+    } else {
+        // Insert new schedule
+        $type = $_POST['type'];
+        $course_code = $_POST['course_code'] ?? null;
+        $day = $_POST['day'];
+        $start_time = $_POST['start_time'];
+        $end_time = $_POST['end_time'];
+        $classroom = $_POST['classroom'] ?? null;
+        $section = $_POST['section'] ?? null;
+        $room = $_POST['room'] ?? null;
+
+        $query = "INSERT INTO doctor_schedule (doctor_id, type, course_code, day, start_time, end_time, classroom, section, room) 
+                  VALUES (1, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+        $stmt = $conn->prepare($query);
+        $stmt->bind_param("ssssssss", $type, $course_code, $day, $start_time, $end_time, $classroom, $section, $room);
+        $stmt->execute();
+    }
     header("Location: schedule.php");
     exit;
 }
@@ -51,7 +86,10 @@ $conn->close();
 <body>
     <div class="container">
         <h1>Manage Weekly Schedule</h1>
+        
+        <!-- Form for Adding or Editing Schedule -->
         <form id="schedule-form" action="schedule.php" method="POST">
+            <input type="hidden" id="schedule_id" name="schedule_id">
             <div class="form-group">
                 <label for="type">Type:</label>
                 <select id="type" name="type" required>
@@ -107,10 +145,11 @@ $conn->close();
             <button type="submit">Save Schedule</button>
         </form>
 
+        <!-- Weekly Schedule Display -->
         <div class="week-schedule">
             <h2>Your Weekly Schedule</h2>
             <?php 
-            $days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+            $days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
             foreach ($days as $day): ?>
                 <div class="day-column">
                     <div class="day-header"><?= $day ?></div>
@@ -123,6 +162,8 @@ $conn->close();
                                 <?php else: ?>
                                     Office Hour<br>Room: <?= $item['room'] ?>
                                 <?php endif; ?>
+                                <button onclick="editSchedule(<?= htmlspecialchars(json_encode($item)) ?>)">Edit</button>
+                                <a href="schedule.php?delete_id=<?= $item['id'] ?>" onclick="return confirm('Are you sure you want to delete this schedule?')">Delete</a>
                             </div>
                         <?php endforeach; ?>
                     <?php else: ?>
@@ -134,20 +175,34 @@ $conn->close();
     </div>
 
     <script>
-        document.addEventListener("DOMContentLoaded", () => {
-            const typeSelect = document.getElementById("type");
-            const classOptions = document.getElementById("class-options");
-            const officeOptions = document.getElementById("office-options");
+        function editSchedule(item) {
+            document.getElementById('schedule_id').value = item.id;
+            document.getElementById('type').value = item.type;
+            document.getElementById('day').value = item.day;
+            document.getElementById('start_time').value = item.start_time;
+            document.getElementById('end_time').value = item.end_time;
 
-            typeSelect.addEventListener("change", () => {
-                if (typeSelect.value === "class") {
-                    classOptions.style.display = "block";
-                    officeOptions.style.display = "none";
-                } else {
-                    classOptions.style.display = "none";
-                    officeOptions.style.display = "block";
-                }
-            });
+            if (item.type === 'class') {
+                document.getElementById('course_code').value = item.course_code;
+                document.getElementById('classroom').value = item.classroom;
+                document.getElementById('section').value = item.section;
+                document.getElementById('class-options').style.display = 'block';
+                document.getElementById('office-options').style.display = 'none';
+            } else {
+                document.getElementById('room').value = item.room;
+                document.getElementById('class-options').style.display = 'none';
+                document.getElementById('office-options').style.display = 'block';
+            }
+        }
+
+        document.getElementById('type').addEventListener('change', (e) => {
+            if (e.target.value === 'class') {
+                document.getElementById('class-options').style.display = 'block';
+                document.getElementById('office-options').style.display = 'none';
+            } else {
+                document.getElementById('class-options').style.display = 'none';
+                document.getElementById('office-options').style.display = 'block';
+            }
         });
     </script>
 </body>
